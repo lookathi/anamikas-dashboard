@@ -88,4 +88,73 @@
 
   <div id="overall-progress-container">
     <strong>Overall Progress</strong>
-    <div
+    <div id="overall-progress-bar">
+      <div id="overall-progress-fill"></div>
+    </div>
+  </div>
+
+  <script>
+    const subtopics = [
+      "Groups and Subgroups",
+      "Cyclic Groups",
+      "Permutation Groups",
+      "Group Homomorphisms",
+      "DnQ8 Class Equations",
+      "Cosets and Normal Subgroups",
+      "Factor Groups",
+      "Sylow Theorem"
+    ];
+
+    const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
+
+    const subtopicContainer = document.getElementById("subtopics");
+    let totalQuestions = 0;
+
+    subtopics.forEach((name, index) => {
+      const subDiv = document.createElement("div");
+      subDiv.className = "subtopic";
+      const idBase = `sub${index}`;
+      subDiv.innerHTML = `<h3>🌼 ${name} 🌼</h3>`;
+
+      levels.forEach((lvl, lvlIndex) => {
+        const group = document.createElement("div");
+        const groupId = `${idBase}-lvl${lvlIndex}`;
+        group.innerHTML = `<strong>${lvl}</strong><br>`;
+
+        for (let q = 1; q <= 10; q++) {
+          const qId = `${groupId}-q${q}`;
+          totalQuestions++;
+          group.innerHTML += `
+            <label><input type="checkbox" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}</label>
+          `;
+        }
+
+        group.innerHTML += `
+          <div class="progress-bar">
+            <div class="progress-fill" id="${groupId}-bar"></div>
+          </div>
+        `;
+        subDiv.appendChild(group);
+      });
+
+      subtopicContainer.appendChild(subDiv);
+    });
+
+    function updateProgress(groupId) {
+      const checkboxes = document.querySelectorAll(`.${groupId}`);
+      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+      const percent = (checked / checkboxes.length) * 100;
+      document.getElementById(`${groupId}-bar`).style.width = percent + "%";
+
+      updateOverallProgress();
+    }
+
+    function updateOverallProgress() {
+      const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
+      const checked = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+      const percent = (checked / totalQuestions) * 100;
+      document.getElementById("overall-progress-fill").style.width = percent + "%";
+    }
+  </script>
+</body>
+</html>

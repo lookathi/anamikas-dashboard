@@ -3,150 +3,107 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Personal Goals</title>
+  <title>Group Theory Goal Tracker</title>
   <style>
     body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f5f5f5;
-      color: #333;
+      font-family: 'Courier New', monospace;
+      background-color: #ffe6f0;
+      color: #4b2c36;
+      padding: 2rem;
     }
-    .container {
-      display: grid;
-      grid-template-columns: 1fr 3fr;
-      min-height: 100vh;
+    h1 {
+      font-size: 2rem;
+      color: #ff69b4;
+      text-shadow: 1px 1px #fff0f5;
     }
-    .sidebar {
-      background: #222;
-      color: #fff;
-      padding: 20px;
-    }
-    .sidebar h2 {
-      font-size: 1.2rem;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-    .sidebar li {
-      margin: 10px 0;
-      cursor: pointer;
-    }
-    .main {
-      padding: 20px;
-    }
-    .section {
-      display: none;
-    }
-    .section.active {
-      display: block;
+    .topic {
+      border: 2px dashed #ffb6c1;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      background-color: #fff0f5;
     }
     .subtopic {
-      margin-bottom: 20px;
+      margin-bottom: 1rem;
+      background-color: #ffe4e1;
+      padding: 1rem;
+      border-radius: 8px;
     }
     .progress-bar {
       height: 10px;
-      background: #ddd;
+      background-color: #fddde6;
+      border-radius: 5px;
       margin-top: 5px;
     }
-    .progress {
-      height: 10px;
-      background: #4caf50;
+    .progress-fill {
+      height: 100%;
+      background-color: #ff69b4;
+      border-radius: 5px;
+      width: 0%;
     }
-    canvas {
-      max-width: 300px;
-      margin-top: 10px;
+    label {
+      display: inline-block;
+      margin-right: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="sidebar">
-      <h2>My Goals</h2>
-      <ul>
-        <li onclick="switchSection('studies')">📘 Studies</li>
-        <li onclick="switchSection('weight')">⚖️ Weight Loss</li>
-        <li onclick="switchSection('skills')">💪 Skills</li>
-      </ul>
-    </div>
-    <div class="main">
-      <div id="studies" class="section active">
-        <h2>Studies</h2>
-        <div class="subtopic" id="math">
-          <h3>Topic: Algebra - Subtopic: Quadratic Equations</h3>
-          <label><input type="checkbox" onchange="updateProgress('math')" /> Q1</label>
-          <label><input type="checkbox" onchange="updateProgress('math')" /> Q2</label>
-          <label><input type="checkbox" onchange="updateProgress('math')" /> Q3</label>
-          <label><input type="checkbox" onchange="updateProgress('math')" /> Q4</label>
-          <label><input type="checkbox" onchange="updateProgress('math')" /> Q5</label>
-          <div class="progress-bar"><div id="progress-math" class="progress"></div></div>
-          <canvas id="chart-math"></canvas>
-        </div>
-      </div>
-
-      <div id="weight" class="section">
-        <h2>Weight Loss</h2>
-        <p>Start: 66kg | Goal: 61kg</p>
-        <input type="range" min="61" max="66" step="0.1" value="66" id="weightInput" oninput="updateWeight()">
-        <p>Current: <span id="weightValue">66</span>kg</p>
-        <canvas id="weightChart"></canvas>
-      </div>
-
-      <div id="skills" class="section">
-        <h2>Skills</h2>
-        <ul>
-          <li>🌀 Spinning Kick - <input type="checkbox"> Milestone 1 <input type="checkbox"> Milestone 2</li>
-          <li>💪 Pull-up Progression - <input type="checkbox"> 1 Rep <input type="checkbox"> 3 Reps</li>
-          <li>🧠 Skill 3 - <input type="checkbox"> Step 1 <input type="checkbox"> Step 2</li>
-        </ul>
-      </div>
-    </div>
+  <h1>📚 Group Theory Tracker 🌸</h1>
+  <div id="group-theory" class="topic">
+    <h2>Group Theory</h2>
+    <div id="subtopics"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    function switchSection(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
+    const subtopics = [
+      "Groups and Subgroups",
+      "Cyclic Groups",
+      "Permutation Groups",
+      "Group Homomorphisms",
+      "DnQ8 Class Equations",
+      "Cosets and Normal Subgroups",
+      "Factor Groups, Sylow Theorem"
+    ];
 
-    function updateProgress(subtopicId) {
-      const container = document.getElementById(subtopicId);
-      const checkboxes = container.querySelectorAll('input[type="checkbox"]');
-      const total = checkboxes.length;
-      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
-      const percent = (checked / total) * 100;
-      container.querySelector('.progress').style.width = percent + '%';
-      renderPieChart('chart-' + subtopicId, percent);
-    }
+    const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
 
-    function renderPieChart(id, percent) {
-      const ctx = document.getElementById(id).getContext('2d');
-      if (window[id]) window[id].destroy();
-      window[id] = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Done', 'Left'],
-          datasets: [{
-            data: [percent, 100 - percent],
-            backgroundColor: ['#4caf50', '#ddd']
-          }]
-        },
-        options: { responsive: false, cutout: '70%' }
+    const subtopicContainer = document.getElementById("subtopics");
+
+    subtopics.forEach((name, index) => {
+      const subDiv = document.createElement("div");
+      subDiv.className = "subtopic";
+      const idBase = `sub${index}`;
+      subDiv.innerHTML = `<h3>🌼 ${name}</h3>`;
+
+      levels.forEach((lvl, lvlIndex) => {
+        const group = document.createElement("div");
+        const groupId = `${idBase}-lvl${lvlIndex}`;
+        group.innerHTML = `<strong>${lvl}</strong><br>`;
+
+        for (let q = 1; q <= 10; q++) {
+          const qId = `${groupId}-q${q}`;
+          group.innerHTML += `
+            <label><input type="checkbox" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}</label>
+          `;
+        }
+
+        group.innerHTML += `
+          <div class="progress-bar">
+            <div class="progress-fill" id="${groupId}-bar"></div>
+          </div>
+        `;
+        subDiv.appendChild(group);
       });
-    }
 
-    function updateWeight() {
-      const val = parseFloat(document.getElementById('weightInput').value);
-      document.getElementById('weightValue').textContent = val;
-      const percent = ((66 - val) / 5) * 100;
-      renderPieChart('weightChart', percent);
-    }
+      subtopicContainer.appendChild(subDiv);
+    });
 
-    // Initialize all
-    updateProgress('math');
-    updateWeight();
+    function updateProgress(groupId) {
+      const checkboxes = document.querySelectorAll(`.${groupId}`);
+      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+      const percent = (checked / checkboxes.length) * 100;
+      document.getElementById(`${groupId}-bar`).style.width = percent + "%";
+    }
   </script>
 </body>
 </html>

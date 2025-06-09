@@ -47,3 +47,137 @@
     .progress-fill {
       height: 100%;
       background-color: #ffc5d3;
+
+    }
+    label {
+      display: inline-block;
+      margin-right: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    #overall-progress-container {
+      position: fixed;
+      bottom: 40px; /* space for Jake PNG */
+      left: 0;
+      width: 100%;
+      background-color: #ffc5d3;
+      padding: 10px 0;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      z-index: 1000;
+      color: #fb6f92;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    #overall-progress-bar {
+      width: 80%;
+      margin: 8px auto 0;
+      height: 15px;
+      background-color: #fb6f92;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+    #overall-progress-fill {
+      height: 100%;
+      background-color: #ffc5d3;
+      width: 0%;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 7px #fb6f92;
+    }
+    #jake-png {
+      position: fixed;
+      bottom: 0;
+      right: 15px;
+      width: 100px;
+      z-index: 1001;
+      user-select: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌸 Group Theory Tracker 🌸</h1>
+
+  <div id="group-theory" class="topic">
+    <h2>🌸 Group Theory 🌸</h2>
+    <div id="subtopics"></div>
+  </div>
+
+  <div id="overall-progress-container">
+    Overall Progress
+    <div id="overall-progress-bar">
+      <div id="overall-progress-fill"></div>
+    </div>
+  </div>
+
+  <img
+    id="jake-png"
+    src="https://toppng.com/public/uploads/preview/jake-the-dog-wallpaper-n9nhhk2-jake-adventure-time-book-png-free-png-images-218399.png"
+    alt="Jake the Dog"
+  />
+
+  <script>
+    const subtopics = [
+      "Groups and Subgroups",
+      "Cyclic Groups",
+      "Permutation Groups",
+      "Group Homomorphisms",
+      "DnQ8 Class Equations",
+      "Cosets and Normal Subgroups",
+      "Factor Groups",
+      "Sylow Theorem"
+    ];
+
+    const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
+
+    const subtopicContainer = document.getElementById("subtopics");
+    let totalQuestions = 0;
+
+    subtopics.forEach((name, index) => {
+      const subDiv = document.createElement("div");
+      subDiv.className = "subtopic";
+      const idBase = `sub${index}`;
+      subDiv.innerHTML = `<h3>🌸 ${name} 🌸</h3>`;
+
+      levels.forEach((lvl, lvlIndex) => {
+        const group = document.createElement("div");
+        const groupId = `${idBase}-lvl${lvlIndex}`;
+        group.innerHTML = `<strong>${lvl}</strong><br>`;
+
+        for (let q = 1; q <= 10; q++) {
+          const qId = `${groupId}-q${q}`;
+          totalQuestions++;
+          group.innerHTML += `
+            <label><input type="checkbox" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}</label>
+          `;
+        }
+
+        group.innerHTML += `
+          <div class="progress-bar">
+            <div class="progress-fill" id="${groupId}-bar"></div>
+          </div>
+        `;
+        subDiv.appendChild(group);
+      });
+
+      subtopicContainer.appendChild(subDiv);
+    });
+
+    function updateProgress(groupId) {
+      const checkboxes = document.querySelectorAll(`.${groupId}`);
+      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+      const percent = (checked / checkboxes.length) * 100;
+      document.getElementById(`${groupId}-bar`).style.width = percent + "%";
+
+      updateOverallProgress();
+    }
+
+    function updateOverallProgress() {
+      const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
+      const checked = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+      const percent = (checked / totalQuestions) * 100;
+      document.getElementById("overall-progress-fill").style.width = percent + "%";
+    }
+  </script>
+</body>
+</html>

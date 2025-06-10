@@ -52,7 +52,7 @@
       display: none;
     }
     #group-theory-section {
-      background-image: url('cottagecore.jpg');
+      background-image: url('cottagecore1111.jpg');
       background-size: cover;
       background-position: center;
       color: #fb6f92;
@@ -112,7 +112,7 @@
       background-color: #fb6f92;
       width: 0%;
     }
-    #jake {
+    #jake-removebg-preview {
       position: fixed;
       bottom: 50px;
       right: 10px;
@@ -157,7 +157,7 @@
   <div id="group-theory" class="hidden">
     <div id="group-theory-section">
       <h1>🌸 Group Theory Tracker 🌸</h1>
-      <img id="jake" src="jake.png" alt="Jake the Dog PNG" />
+      <img id="jake-removebg-preview" src="jake-removebg-preview.png" alt="jake-removebg-preview the Dog PNG" />
       <div id="group-theory-content" class="topic">
         <h2>Group Theory</h2>
         <div id="subtopics"></div>
@@ -245,6 +245,37 @@
     }
 
     showSection('home');
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checklist with Memory</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <h2>My Tracker</h2>
+  <label><input type="checkbox" id="task1"> Task 1</label><br>
+  <label><input type="checkbox" id="task2"> Task 2</label><br>
+  <label><input type="checkbox" id="task3"> Task 3</label>
+
+  <script>
+    // Restore checkbox state
+    window.onload = function() {
+      document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+        const saved = localStorage.getItem(cb.id);
+        if (saved !== null) cb.checked = saved === 'true';
+        cb.addEventListener('change', () => {
+          localStorage.setItem(cb.id, cb.checked);
+        });
+      });
+    };
   </script>
 </body>
 </html>
+
+

@@ -171,111 +171,103 @@
       <div id="overall-progress-fill"></div>
     </div>
   </div>
+  
+<script>
+  const subtopics = [
+    "Groups and Subgroups",
+    "Cyclic Groups",
+    "Permutation Groups",
+    "Group Homomorphisms",
+    "DnQ8 Class Equations",
+    "Cosets and Normal Subgroups",
+    "Factor Groups",
+    "Sylow Theorem"
+  ];
 
-  <script>
-    const subtopics = [
-      "Groups and Subgroups",
-      "Cyclic Groups",
-      "Permutation Groups",
-      "Group Homomorphisms",
-      "DnQ8 Class Equations",
-      "Cosets and Normal Subgroups",
-      "Factor Groups",
-      "Sylow Theorem"
-    ];
+  const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
 
-    const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
+  const subtopicContainer = document.getElementById("subtopics");
+  let totalQuestions = 0;
 
-    const subtopicContainer = document.getElementById("subtopics");
-    let totalQuestions = 0;
+  subtopics.forEach((name, index) => {
+    const subDiv = document.createElement("div");
+    subDiv.className = "subtopic";
+    const idBase = `sub${index}`;
+    subDiv.innerHTML = `<h3>🌼 ${name} 🌼</h3>`;
 
-    subtopics.forEach((name, index) => {
-      const subDiv = document.createElement("div");
-      subDiv.className = "subtopic";
-      const idBase = `sub${index}`;
-      subDiv.innerHTML = `<h3>🌼 ${name} 🌼</h3>`;
+    levels.forEach((lvl, lvlIndex) => {
+      const group = document.createElement("div");
+      const groupId = `${idBase}-lvl${lvlIndex}`;
+      group.innerHTML = `<strong>${lvl}</strong><br>`;
 
-      levels.forEach((lvl, lvlIndex) => {
-        const group = document.createElement("div");
-        const groupId = `${idBase}-lvl${lvlIndex}`;
-        group.innerHTML = `<strong>${lvl}</strong><br>`;
-
-        for (let q = 1; q <= 10; q++) {
-          const qId = `${groupId}-q${q}`;
-          totalQuestions++;
-          group.innerHTML += `
-            <label><input type="checkbox" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}</label>
-          `;
-        }
-
+      for (let q = 1; q <= 10; q++) {
+        const qId = `${groupId}-q${q}`;
+        totalQuestions++;
         group.innerHTML += `
-          <div class="progress-bar">
-            <div class="progress-fill" id="${groupId}-bar"></div>
-          </div>
+          <label><input type="checkbox" id="${qId}" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}</label>
         `;
-        subDiv.appendChild(group);
-      });
+      }
 
-      subtopicContainer.appendChild(subDiv);
+      group.innerHTML += `
+        <div class="progress-bar">
+          <div class="progress-fill" id="${groupId}-bar"></div>
+        </div>
+      `;
+      subDiv.appendChild(group);
     });
 
-    function updateProgress(groupId) {
-      const checkboxes = document.querySelectorAll(`.${groupId}`);
-      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
-      const percent = (checked / checkboxes.length) * 100;
-      document.getElementById(`${groupId}-bar`).style.width = percent + "%";
+    subtopicContainer.appendChild(subDiv);
+  });
 
-      updateOverallProgress();
-    }
+  function updateProgress(groupId) {
+    const checkboxes = document.querySelectorAll(`.${groupId}`);
+    const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const percent = (checked / checkboxes.length) * 100;
+    document.getElementById(`${groupId}-bar`).style.width = percent + "%";
 
-    function updateOverallProgress() {
-      const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
-      const checked = Array.from(allCheckboxes).filter(cb => cb.checked).length;
-      const percent = (checked / totalQuestions) * 100;
-      document.getElementById("overall-progress-fill").style.width = percent + "%";
-    }
+    updateOverallProgress();
 
-    function showSection(id) {
-      document.querySelectorAll('body > div').forEach(div => {
-        if (div.id !== 'overall-progress-container') {
-          div.classList.add('hidden');
-        }
+    // Save state to localStorage
+    checkboxes.forEach(cb => {
+      localStorage.setItem(cb.id, cb.checked);
+    });
+  }
+
+  function updateOverallProgress() {
+    const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
+    const checked = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+    const percent = (checked / totalQuestions) * 100;
+    document.getElementById("overall-progress-fill").style.width = percent + "%";
+  }
+
+  function showSection(id) {
+    document.querySelectorAll('body > div').forEach(div => {
+      if (div.id !== 'overall-progress-container') {
+        div.classList.add('hidden');
+      }
+    });
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  // On first load, show homepage
+  showSection('home');
+
+  // Restore checkbox state on load
+  window.onload = function () {
+    document.querySelectorAll("input[type=checkbox]").forEach(cb => {
+      const saved = localStorage.getItem(cb.id);
+      if (saved !== null) cb.checked = saved === "true";
+    });
+
+    // Recalculate progress bars
+    subtopics.forEach((_, index) => {
+      levels.forEach((_, lvlIndex) => {
+        const groupId = `sub${index}-lvl${lvlIndex}`;
+        updateProgress(groupId);
       });
-      document.getElementById(id).classList.remove('hidden');
-    }
+    });
+  };
+</script>
 
-    showSection('home');
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checklist with Memory</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-  </style>
-</head>
-<body>
-  <h2>My Tracker</h2>
-  <label><input type="checkbox" id="task1"> Task 1</label><br>
-  <label><input type="checkbox" id="task2"> Task 2</label><br>
-  <label><input type="checkbox" id="task3"> Task 3</label>
-
-  <script>
-    // Restore checkbox state
-    window.onload = function() {
-      document.querySelectorAll('input[type=checkbox]').forEach(cb => {
-        const saved = localStorage.getItem(cb.id);
-        if (saved !== null) cb.checked = saved === 'true';
-        cb.addEventListener('change', () => {
-          localStorage.setItem(cb.id, cb.checked);
-        });
-      });
-    };
-  </script>
-</body>
 </html>
-
 

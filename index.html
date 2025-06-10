@@ -52,7 +52,7 @@
       display: none;
     }
     #group-theory-section {
-      background-image: url('cottagecore1111.jpg');
+      background-image: url('cottagecore1.jpg');
       background-size: cover;
       background-position: center;
       color: #fb6f92;
@@ -123,9 +123,12 @@
 <body>
   <div class="nav">
     <a href="#" onclick="showSection('home')"> sreelam</a>
-    <a href="#" onclick="showSection('iitjam')"> IIT JAM</a>
-    <a href="#" onclick="showSection('fitness')"> Fitness</a>
-    <a href="#" onclick="showSection('skills')"> Skills</a>
+    <a href="#home" onclick="showSection('home'); return false;">Home</a>
+<a href="#iitjam" onclick="showSection('iitjam'); return false;">IIT JAM</a>
+<a href="#group-theory" onclick="showSection('group-theory'); return false;">Group Theory</a>
+
+    <a href="#" onclick="showSection('fitness')"> fitness</a>
+    <a href="#" onclick="showSection('skills')"> skillzz</a>
   </div>
 
   <div id="home" class="homepage">
@@ -146,6 +149,8 @@
   <div id="iitjam" class="hidden">
     <h2>📘 IIT JAM Topics</h2>
     <div class="subtopic-link" onclick="showSection('group-theory')">Group Theory</div>
+<a href="#group-theory" onclick="showSection('group-theory'); return false;">Group Theory</a>
+
     <div class="subtopic-link">Linear Algebra</div>
     <div class="subtopic-link">Real Analysis</div>
     <div class="subtopic-link">Abstract Algebra</div>
@@ -183,6 +188,25 @@
     "Factor Groups",
     "Sylow Theorem"
   ];
+
+  function showSection(id, skipHashUpdate = false) {
+  // Hide all sections except the fixed progress bar
+  document.querySelectorAll('body > div').forEach(div => {
+    if (div.id !== 'overall-progress-container') {
+      div.classList.add('hidden');
+    }
+  });
+
+  // Show the selected section
+  const section = document.getElementById(id);
+  if (section) section.classList.remove('hidden');
+
+  // Update the URL hash if needed
+  if (!skipHashUpdate) {
+    history.pushState({ section: id }, '', `#${id}`);
+  }
+}
+
 
   const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
 
@@ -251,6 +275,23 @@
 
   // On first load, show homepage
   showSection('home');
+window.addEventListener('popstate', (e) => {
+  const id = location.hash.slice(1);
+  if (id && document.getElementById(id)) {
+    showSection(id, true);
+  } else {
+    showSection('home', true);
+  }
+});
+// On initial page load
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = location.hash.slice(1);
+  if (hash && document.getElementById(hash)) {
+    showSection(hash, true);
+  } else {
+    showSection('home', true);
+  }
+});
 
   // Restore checkbox state on load
   window.onload = function () {

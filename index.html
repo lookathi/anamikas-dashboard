@@ -308,7 +308,170 @@ window.addEventListener('DOMContentLoaded', () => {
       });
     });
   };
-</script>
 
+    /* Floating Banner */
+    #dailyBanner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb3c1; /* light pink */
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+      padding: 0.5rem;
+      z-index: 1000;
+      font-family: sans-serif;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    body {
+      padding-top: 3rem; /* To avoid content hiding behind the banner */
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+
+    label, select, input {
+      display: block;
+      margin: 0.5rem 0;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #ff6f91;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ff4e78;
+    }
+
+    #progressOutput h3 {
+      margin-top: 1.5rem;
+      color: #555;
+    }
+
+    #progressOutput ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Daily Banner -->
+  <div id="dailyBanner">Today's questions solved: 0</div>
+
+  <!-- Logging Form -->
+  <h1>Log Questions Solved</h1>
+  <form id="logForm">
+    <label>Topic:
+      <select name="topic">
+        <option>Group Theory</option>
+        <option>Linear Algebra</option>
+        <option>Calculus</option>
+        <!-- Add more topics here -->
+      </select>
+    </label>
+
+    <label>Subtopic:
+      <select name="subtopic">
+        <option>Subgroups</option>
+        <option>Lagrange's Theorem</option>
+        <option>Vector Spaces</option>
+        <!-- Add more subtopics here -->
+      </select>
+    </label>
+
+    <label>Questions Solved Today:
+      <input type="number" name="count" min="1" required />
+    </label>
+
+    <button type="submit">Log Progress</button>
+  </form>
+
+  <!-- View History Button -->
+  <button onclick="showProgress()">View Progress</button>
+  <div id="progressOutput"></div>
+
+  <!-- JavaScript -->
+  <script>
+    // On Page Load: update banner
+    window.addEventListener("DOMContentLoaded", () => {
+      const today = new Date().toISOString().split("T")[0];
+      const record = JSON.parse(localStorage.getItem("progress") || "{}");
+      const banner = document.getElementById("dailyBanner");
+
+      if (record[today]) {
+        banner.textContent = `Today's questions solved: ${record[today].totalChecked}`;
+      } else {
+        banner.textContent = `Today's questions solved: 0`;
+      }
+    });
+
+    // On Form Submit: save data
+    document.getElementById("logForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const topic = form.topic.value;
+      const subtopic = form.subtopic.value;
+      const count = parseInt(form.count.value);
+
+      const today = new Date().toISOString().split("T")[0];
+      const record = JSON.parse(localStorage.getItem("progress") || "{}");
+
+      if (!record[today]) {
+        record[today] = { topics: {}, totalChecked: 0 };
+      }
+
+      if (!record[today].topics[topic]) {
+        record[today].topics[topic] = {};
+      }
+
+      if (!record[today].topics[topic][subtopic]) {
+        record[today].topics[topic][subtopic] = 0;
+      }
+
+      record[today].topics[topic][subtopic] += count;
+      record[today].totalChecked += count;
+
+      localStorage.setItem("progress", JSON.stringify(record));
+
+      // Update banner
+      document.getElementById("dailyBanner").textContent = `Today's questions solved: ${record[today].totalChecked}`;
+
+      alert("Progress logged!");
+      form.reset();
+    });
+
+    // Show Past Progress
+    function showProgress() {
+      const record = JSON.parse(localStorage.getItem("progress") || "{}");
+      const output = document.getElementById("progressOutput");
+      output.innerHTML = "";
+
+      for (const date in record) {
+        const day = record[date];
+        const section = document.createElement("div");
+        section.innerHTML = `<h3>${date}: ${day.totalChecked} questions</h3>`;
+
+        for (const topic in day.topics) {
+          section.innerHTML += `<strong>${topic}</strong><ul>`;
+          for (const sub in day.topics[topic]) {
+            section.innerHTML += `<li>${sub}: ${day.topics[topic][sub]}</li>`;
+          }
+          section.innerHTML += `</ul>`;
+        }
+
+        output.appendChild(section);
+      }
+    }
+  </script>
+
+</body>
 </html>
 

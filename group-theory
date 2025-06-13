@@ -54,7 +54,7 @@
   </style>
 </head>
 <body>
-  <div id="dailyBanner">Today's questions solved: 0 | 🔥 Streak: 0 days</div>
+  <div id="dailyBanner">today's questions solved: 0 | 🔥 Streak: 0 days</div>
   <div id="content"></div>
   <script>
     const levels = ["Lvl 1", "Lvl 2"];
@@ -120,7 +120,7 @@
       }
 
       const solved = record[today]?.totalChecked || 0;
-      document.getElementById("dailyBanner").textContent = `Today's questions solved: ${solved} | 🔥 Streak: ${streak} day${streak !== 1 ? "s" : ""}`;
+      document.getElementById("dailyBanner").textContent = `today's questions solved: ${solved} | 🔥 Streak: ${streak} day${streak !== 1 ? "s" : ""}`;
     }
   </script>
 </body>

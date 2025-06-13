@@ -278,28 +278,36 @@
     </div>
   </div>
 
-  <!-- Logging Form -->
-  <h1>Log Questions Solved</h1>
-  <form id="logForm">
-    <label>Topic:
-      <select name="topic">
-        <option>Group Theory</option>
-        <option>Linear Algebra</option>
-        <option>Calculus</option>
-      </select>
-    </label>
-    <label>Subtopic:
-      <select name="subtopic">
-        <option>Subgroups</option>
-        <option>Lagrange's Theorem</option>
-        <option>Vector Spaces</option>
-      </select>
-    </label>
-    <label>Questions Solved Today:
-      <input type="number" name="count" min="1" required />
-    </label>
-    <button type="submit">Log Progress</button>
-  </form>
+ <style>
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #E6E6FA; /* Light lavender */
+  }
+
+  #dailyBanner {
+    background-color: #fb6f92;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .question-list {
+    display: grid;
+    grid-template-columns: repeat(10, auto);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .question-list input[type="checkbox"] {
+    accent-color: #fb6f92;
+    transform: scale(1.2);
+  }
+</style>
+
 
   <button onclick="showProgress()">View Progress</button>
   <div id="progressOutput"></div>

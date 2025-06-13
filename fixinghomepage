@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Group Theory Tracker</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', serif;
+      background-color: #ffffff;
+      color: #fb6f92;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .nav {
+      margin-bottom: 2rem;
+    }
+
+    .nav a {
+      margin-right: 1rem;
+      color: #fb6f92;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav a:hover {
+      text-decoration: underline;
+    }
+
+    #home-icon {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      width: 40px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .topic {
+      border: 2px dashed #ffc5d3;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .subtopic {
+      margin-bottom: 2rem;
+      background-color: #ffffff;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .checkbox-columns {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .checkbox-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background-color: #ffc5d3;
+      border-radius: 5px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: #fb6f92;
+      border-radius: 5px;
+      width: 0%;
+    }
+
+    #overall-progress-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffc5d3;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #overall-progress-bar {
+      width: 80%;
+      margin: 0 auto;
+      height: 15px;
+      background-color: #e6daff;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    #overall-progress-fill {
+      height: 100%;
+      background-color: #fb6f92;
+      width: 0%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home icon -->
+  <a href="index.html"><img id="home-icon" src="home.png" alt="Home" /></a>
+
+  <!-- Navigation (only 3 items now) -->
+  <div class="nav">
+    <a href="iitjam.html">IIT JAM</a>
+    <a href="skillz.html">Skillz</a>
+    <a href="fitness.html">Fitness</a>
+  </div>
+
+  <h1>🌸 Group Theory Tracker 🌸</h1>
+  <div class="topic" id="group-theory-content">
+    <h2>Group Theory</h2>
+    <div id="subtopics"></div>
+  </div>
+
+  <div id="overall-progress-container">
+    <strong>Overall Progress</strong>
+    <div id="overall-progress-bar">
+      <div id="overall-progress-fill"></div>
+    </div>
+  </div>
+
+  <script>
+    const subtopics = [
+      "Groups and Subgroups",
+      "Cyclic Groups",
+      "Permutation Groups",
+      "Group Homomorphisms",
+      "DnQ8 Class Equations",
+      "Cosets and Normal Subgroups",
+      "Factor Groups",
+      "Sylow Theorem"
+    ];
+
+    const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
+    const subtopicContainer = document.getElementById("subtopics");
+    let totalQuestions = 0;
+    let questionsSolvedToday = 0;
+
+    subtopics.forEach((name, index) => {
+      const subDiv = document.createElement("div");
+      subDiv.className = "subtopic";
+      const idBase = `sub${index}`;
+      subDiv.innerHTML = `<h3>🌼 ${name} 🌼</h3>`;
+
+      levels.forEach((lvl, lvlIndex) => {
+        const groupId = `${idBase}-lvl${lvlIndex}`;
+        const group = document.createElement("div");
+        group.innerHTML = `<strong>${lvl}</strong><div class="checkbox-columns"><div class="checkbox-column" id="${groupId}-col1"></div><div class="checkbox-column" id="${groupId}-col2"></div></div>`;
+
+        for (let q = 1; q <= 10; q++) {
+          const qId = `${groupId}-q${q}`;
+          const label = document.createElement("label");
+          label.innerHTML = `<input type="checkbox" id="${qId}" class="${groupId}"> Q${q}`;
+          totalQuestions++;
+          const column = q <= 5 ? `${groupId}-col1` : `${groupId}-col2`;
+          document.getElementById(column)?.appendChild(label);
+        }
+
+        group.innerHTML += `
+          <div class="progress-bar">
+            <div class="progress-fill" id="${groupId}-bar"></div>
+          </div>
+        `;
+        subDiv.appendChild(group);
+      });
+
+      subtopicContainer.appendChild(subDiv);
+    });
+
+    // Load checkbox states
+    window.onload = () => {
+      const today = new Date().toISOString().split("T")[0];
+      const storedToday = localStorage.getItem("checkbox-today") || "";
+
+      document.querySelectorAll("input[type=checkbox]").forEach(cb => {
+        const saved = localStorage.getItem(cb.id);
+        if (saved !== null) {
+          cb.checked = saved === "true";
+        }
+
+        cb.addEventListener("change", () => {
+          localStorage.setItem(cb.id, cb.checked);
+
+          // Only count if checkbox was just checked, and today hasn't been recorded
+          if (cb.checked && storedToday !== today) {
+            let progress = JSON.parse(localStorage.getItem("progress") || "{}");
+            if (!progress[today]) progress[today] = 0;
+            progress[today]++;
+            localStorage.setItem("progress", JSON.stringify(progress));
+            localStorage.setItem("checkbox-today", today);
+          }
+
+          updateProgress(cb.className);
+          updateOverallProgress();
+        });
+      });
+
+      // Initial bar setup
+      subtopics.forEach((_, index) => {
+        levels.forEach((_, lvlIndex) => {
+          const groupId = `sub${index}-lvl${lvlIndex}`;
+          updateProgress(groupId);
+        });
+      });
+
+      updateOverallProgress();
+    };
+
+    function updateProgress(groupId) {
+      const checkboxes = document.querySelectorAll(`.${groupId}`);
+      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+      const percent = (checked / checkboxes.length) * 100;
+      const bar = document.getElementById(`${groupId}-bar`);
+      if (bar) bar.style.width = percent + "%";
+    }
+
+    function updateOverallProgress() {
+      const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
+      const checked = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+      const percent = (checked / totalQuestions) * 100;
+      document.getElementById("overall-progress-fill").style.width = percent + "%";
+    }
+  </script>
+</body>
+</html>

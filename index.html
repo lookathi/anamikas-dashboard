@@ -87,9 +87,7 @@
     }
 
     #group-theory-section {
-      background-image: url('cottagecore1.jpg');
-      background-size: cover;
-      background-position: center;
+  
       color: #fb6f92;
       padding: 2rem;
       border-radius: 12px;
@@ -216,7 +214,17 @@
     #progressOutput ul {
       margin: 0;
       padding-left: 1.2rem;
-    }
+    }.question-list {
+  display: grid;
+  grid-template-columns: repeat(10, auto);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.question-list input[type="checkbox"] {
+  accent-color: #fb6f92; /* your pink */
+}
+
   </style>
 </head>
 <body>

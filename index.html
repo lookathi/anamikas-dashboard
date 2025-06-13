@@ -15,6 +15,23 @@
 body.iitjam label {
   color: #2c2c2c;
 }
+/* General condensed spacing for IIT-JAM pages */
+body.iitjam .main-content h2,
+body.iitjam .main-content h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Reduce space between question checkboxes */
+body.iitjam .question {
+  margin-bottom: 0.4rem;
+}
+
+/* If you're using lists or paragraphs inside sections */
+body.iitjam .main-content p,
+body.iitjam .main-content li {
+  margin: 0.3rem 0;
+}
 
     body {
       font-family: 'Times New Roman', serif;
@@ -234,8 +251,15 @@ body.iitjam label {
   </div>
 
   <div id="iitjam" class="hidden">
-    <h2>📘 IIT JAM Topics</h2>
-    <div class="subtopic-link" onclick="showSection('group-theory')">Group Theory</div>
+    <h2> IIT JAM topics</h2>
+    <div class="subtopic-link" onclick="showSection('group-theory')">group theory</div>
+    <div class="subtopic-link" onclick="showSection('f2v')">functions of 2 variables</div>
+    <div class="subtopic-link" onclick="showSection('la')">linear algebra</div>
+     <div class="subtopic-link" onclick="showSection('f1v')">functions of 1 variable</div>
+     <div class="subtopic-link" onclick="showSection('s-and-s')">sequences and series</div>
+     <div class="subtopic-link" onclick="showSection('de')">differential equations</div>
+     <div class="subtopic-link" onclick="showSection('ic')">integral calculus</div>
+
   </div>
 
   <div id="group-theory" class="hidden">

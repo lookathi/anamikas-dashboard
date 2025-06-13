@@ -22,6 +22,8 @@
 .checkbox-inline label {
   white-space: nowrap;
 }
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+
 
     input[type="checkbox"] {
       accent-color: #fb6f92;
@@ -57,6 +59,11 @@
       padding: 1rem;
       border-radius: 12px;
     }
+#dailyBanner {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.2rem; /* You can tweak size if needed */
+  font-weight: 600;  /* Optional: makes it look bolder */
+}
 
     .category h2 {
       margin-bottom: 0.5rem;
@@ -212,7 +219,11 @@
     <a href="#" onclick="showSection('skills')">skillzz</a>
   </div>
 
-  <div id="dailyBanner">Today's questions solved: 0 | 🔥 Streak: 0 days</div>
+  <div id="dailyBanner">
+  today's questions solved: <span id="questionsSolved">0</span> |
+  streak: <span id="streakCount">0</span> days
+</div>
+
 
   <div id="home" class="homepage">
     <div class="category">
@@ -458,6 +469,56 @@ group.appendChild(checkboxContainer);
         output.appendChild(section);
       }
     }
-  </script>
+  </script><script>
+  // Get the date in YYYY-MM-DD format
+  const todayKey = new Date().toISOString().split("T")[0];
+
+  // Get or create saved data
+  let savedProgress = JSON.parse(localStorage.getItem("dailyProgress")) || {};
+
+  // Update today's checkbox count
+  function updateBanner() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    let solvedToday = 0;
+
+    checkboxes.forEach((box) => {
+      if (box.checked && box.dataset.date === todayKey) {
+        solvedToday++;
+      }
+    });
+
+    // Save today's count
+    savedProgress[todayKey] = solvedToday;
+    localStorage.setItem("dailyProgress", JSON.stringify(savedProgress));
+
+    // Update streak (number of consecutive days with >0 solved)
+    let streak = 0;
+    let date = new Date(todayKey);
+    while (true) {
+      const dateStr = date.toISOString().split("T")[0];
+      if (savedProgress[dateStr] > 0) {
+        streak++;
+        date.setDate(date.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+
+    document.getElementById("questionsSolved").textContent = solvedToday;
+    document.getElementById("streakCount").textContent = streak;
+  }
+
+  // Add event listeners to all checkboxes
+  document.querySelectorAll('input[type="checkbox"]').forEach((box) => {
+    // Tag checkbox with today's date if not already
+    if (!box.dataset.date) box.dataset.date = todayKey;
+
+    box.addEventListener("change", updateBanner);
+  });
+
+  // Initial update on page load
+  updateBanner();
+</script>
+
 </body>
 </html>

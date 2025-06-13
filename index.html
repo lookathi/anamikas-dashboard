@@ -272,17 +272,23 @@
       subDiv.innerHTML = `<h3>🌼 ${name} 🌼</h3>`;
 
       levels.forEach((lvl, lvlIndex) => {
-        const group = document.createElement("div");
-        const groupId = `${idBase}-lvl${lvlIndex}`;
-        group.innerHTML = `<strong>${lvl}</strong><div class="question-list">`;
+       const group = document.createElement("div");
+const groupId = `${idBase}-lvl${lvlIndex}`;
+group.innerHTML = `<strong>${lvl}</strong>`;
 
-        for (let q = 1; q <= 10; q++) {
-          const qId = `${groupId}-q${q}`;
-          totalQuestions++;
-          group.innerHTML += `
-            <label><input type="checkbox" id="${qId}" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}</label>
-          `;
-        }
+const checkboxWrapper = document.createElement("div");
+checkboxWrapper.className = "question-list";
+
+for (let q = 1; q <= 10; q++) {
+  const qId = `${groupId}-q${q}`;
+  totalQuestions++;
+  const label = document.createElement("label");
+  label.innerHTML = `<input type="checkbox" id="${qId}" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}`;
+  checkboxWrapper.appendChild(label);
+}
+
+group.appendChild(checkboxWrapper);
+
 
         group.innerHTML += `</div>
           <div class="progress-bar">

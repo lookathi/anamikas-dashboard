@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,16 +13,8 @@
       padding: 2rem;
       padding-top: 4rem;
       position: relative;
-    }
-
-    body[data-page="home"] {
-      background-color: white;
-      color: #fb6f92;
-    }
-
-    body:not([data-page="home"]) {
-      background-color: #fb6f92;
-      color: white;
+      background-color: #ffe0eb;
+      color: #a60343;
     }
 
     input[type="checkbox"] {
@@ -60,12 +54,12 @@
     }
 
     .question {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.1rem;
     }
 
     .main-content p,
     .main-content li {
-      margin: 0.3rem 0;
+      margin: 0.2rem 0;
     }
 
     .main-content {
@@ -75,13 +69,13 @@
     .question-list {
       display: grid;
       grid-template-columns: repeat(10, auto);
-      gap: 0.3rem;
-      margin-top: 0.5rem;
+      gap: 0.1rem;
+      margin-top: 0.2rem;
     }
 
     .subtopic {
-      margin-bottom: 1rem;
-      background-color: #ffffff;
+      margin-bottom: 0.5rem;
+      background-color: #ffc5d3;
       padding: 1rem;
       border-radius: 8px;
     }
@@ -102,6 +96,7 @@
 
     .nav a {
       margin-right: 1rem;
+      cursor: pointer;
     }
 
     .homepage {
@@ -152,236 +147,101 @@
       z-index: 1000;
       text-transform: lowercase;
     }
+
+    #overall-progress-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffc5d3;
+      text-align: center;
+      padding: 0.5rem;
+      z-index: 900;
+    }
+
+    #jake {
+      position: fixed;
+      right: 10px;
+      bottom: 60px;
+      width: 60px;
+      z-index: 1001;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
-<body data-page="home">
-  <!-- rest of your unchanged body content -->
-  <script>
-    if (!window.location.pathname.endsWith("index.html") && window.location.pathname !== "/") {
-      document.body.setAttribute("data-page", "subpage");
-    }
-  </script>
-</body>
-
-
-<body data-page="home">
-
-  <!-- 🔥 FIXED: Banner now shows always -->
-  <div id="dailyBanner">
-    today's questions solved: <span id="questionsSolved">0</span> |
-     streak: <span id="streakCount">0</span> days
-  </div>
-
+<body>
+  <div id="dailyBanner">🌸 daily check-in 🌸</div>
   <div class="nav">
-    <a href="#iitjam" onclick="showSection('iitjam'); return false;">IIT JAM</a>
-    <a href="#" onclick="showSection('fitness')"fitness</a>
-    <a href="#" onclick="showSection('skills')">skillzz</a>
+    <a href="/home" onclick="navigateTo(event, 'home')">home</a>
+    <a href="/group-theory" onclick="navigateTo(event, 'group-theory-section')">group theory</a>
   </div>
 
   <div id="home" class="homepage">
     <div class="category">
-      <h2>IIT JAM</h2>
-      <div class="subtopic-link" onclick="showSection('iitjam')">Enter</div>
+      <h2>your goals</h2>
+      <div class="subtopic-link" onclick="navigateTo(event, 'group-theory-section')">group theory</div>
     </div>
     <div class="category">
-      <h2>fitness</h2>
-      <div class="subtopic-link">Coming soon</div>
-    </div>
-    <div class="category">
-      <h2>skillzz</h2>
-      <div class="subtopic-link">Coming soon</div>
+      <h2>iit jam</h2>
+      <div class="subtopic-link">differential equations</div>
+      <div class="subtopic-link" onclick="navigateTo(event, 'group-theory-section')">group theory</div>
     </div>
   </div>
 
-  <div id="iitjam" class="hidden">
-    <h2> IIT JAM topics</h2>
-    <div class="subtopic-link" onclick="showSection('group-theory')">group theory</div>
-    <div class="subtopic-link" onclick="showSection('f2v')">functions of 2 variables</div>
-    <div class="subtopic-link" onclick="showSection('la')">linear algebra</div>
-     <div class="subtopic-link" onclick="showSection('f1v')">functions of 1 variable</div>
-     <div class="subtopic-link" onclick="showSection('s-and-s')">sequences and series</div>
-     <div class="subtopic-link" onclick="showSection('de')">differential equations</div>
-     <div class="subtopic-link" onclick="showSection('ic')">integral calculus</div>
+  <div id="group-theory-section" class="main-content hidden">
+    <h2>group theory tracker</h2>
 
-  </div>
+    <div class="subtopic">
+      <h3>groups</h3>
+      <div class="question-list">
+        <label class="question"><input type="checkbox"> q1</label>
+        <label class="question"><input type="checkbox"> q2</label>
+      </div>
+    </div>
 
-  <div id="group-theory" class="hidden">
-    <div id="group-theory-section">
-      <h1>🌸 Group Theory Tracker 🌸</h1>
-      <img id="jake-removebg-preview" src="jake-removebg-preview.png" alt="jake the dog" />
-      <div id="group-theory-content" class="topic">
-        <h2>Group Theory</h2>
-        <div id="subtopics"></div>
+    <div class="subtopic">
+      <h3>subgroups</h3>
+      <div class="question-list">
+        <label class="question"><input type="checkbox"> q1</label>
+        <label class="question"><input type="checkbox"> q2</label>
       </div>
     </div>
   </div>
 
-  <div id="overall-progress-container">
-    <strong>Overall Progress</strong>
-    <div id="overall-progress-bar">
-      <div id="overall-progress-fill"></div>
-    </div>
-  </div>
-
+  <img id="jake" src="jake.png" alt="jake the dog">
+  <div id="overall-progress-container">🌸 overall progress bar placeholder 🌸</div>
 
   <script>
-    const subtopics = [
-      "Groups and Subgroups",
-      "Cyclic Groups",
-      "Permutation Groups",
-      "Group Homomorphisms",
-      "DnQ8 Class Equations",
-      "Cosets and Normal Subgroups",
-      "Factor Groups",
-      "Sylow Theorem"
-    ];
-
-    const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
-    const subtopicContainer = document.getElementById("subtopics");
-    let totalQuestions = 0;
-
-    subtopics.forEach((name, index) => {
-      const subDiv = document.createElement("div");
-      subDiv.className = "subtopic";
-      const idBase = `sub${index}`;
-      subDiv.innerHTML = `<h3>🌼 ${name} 🌼</h3>`;
-
-      levels.forEach((lvl, lvlIndex) => {
-       const group = document.createElement("div");
-const groupId = `${idBase}-lvl${lvlIndex}`;
-group.innerHTML = `<strong>${lvl}</strong>`;
-
-const checkboxWrapper = document.createElement("div");
-checkboxWrapper.className = "question-list";
-
-for (let q = 1; q <= 10; q++) {
-  const qId = `${groupId}-q${q}`;
-  totalQuestions++;
-  const label = document.createElement("label");
-  label.innerHTML = `<input type="checkbox" id="${qId}" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}`;
-  checkboxWrapper.appendChild(label);
-}
-
-group.appendChild(checkboxWrapper);
-
-
-        group.innerHTML += `</div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="${groupId}-bar"></div>
-          </div>
-        `;
-        subDiv.appendChild(group);
-      });
-
-      subtopicContainer.appendChild(subDiv);
-    });
-
-    function updateProgress(groupId) {
-      const checkboxes = document.querySelectorAll(`.${groupId}`);
-      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
-      const percent = (checked / checkboxes.length) * 100;
-      document.getElementById(`${groupId}-bar`).style.width = percent + "%";
-
-      updateOverallProgress();
-
-      checkboxes.forEach(cb => {
-        localStorage.setItem(cb.id, cb.checked);
-      });
-    }
-
-    function updateOverallProgress() {
-      const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
-      const checked = Array.from(allCheckboxes).filter(cb => cb.checked).length;
-      const percent = (checked / totalQuestions) * 100;
-      document.getElementById("overall-progress-fill").style.width = percent + "%";
+    function navigateTo(event, id) {
+      event.preventDefault();
+      history.pushState({ section: id }, "", "/" + id.replace("-section", ""));
+      showSection(id);
     }
 
     function showSection(id) {
       document.querySelectorAll('body > div').forEach(div => {
-        if (div.id !== 'overall-progress-container' && div.id !== 'dailyBanner') {
+        if (!['dailyBanner', 'overall-progress-container'].includes(div.id)) {
           div.classList.add('hidden');
         }
       });
-      document.getElementById(id).classList.remove('hidden');
+      const target = document.getElementById(id);
+      if (target) target.classList.remove('hidden');
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      document.querySelectorAll("input[type=checkbox]").forEach(cb => {
-        const saved = localStorage.getItem(cb.id);
-        if (saved !== null) cb.checked = saved === "true";
-      });
-
-      subtopics.forEach((_, index) => {
-        levels.forEach((_, lvlIndex) => {
-          const groupId = `sub${index}-lvl${lvlIndex}`;
-          updateProgress(groupId);
-        });
-      });
-
-      updateBanner();
+    window.addEventListener('popstate', () => {
+      const section = location.pathname.slice(1);
+      const id = section === "" || section === "home" ? "home" : section + "-section";
+      showSection(id);
     });
 
-    function updateBanner() {
-      const todayKey = new Date().toISOString().split("T")[0];
-      let savedProgress = JSON.parse(localStorage.getItem("dailyProgress")) || {};
-      let solvedToday = 0;
-
-      document.querySelectorAll('input[type="checkbox"]').forEach((box) => {
-        if (box.checked) solvedToday++;
-      });
-
-      savedProgress[todayKey] = solvedToday;
-      localStorage.setItem("dailyProgress", JSON.stringify(savedProgress));
-
-      let streak = 0;
-      let date = new Date(todayKey);
-      while (true) {
-        const dateStr = date.toISOString().split("T")[0];
-        if (savedProgress[dateStr] > 0) {
-          streak++;
-          date.setDate(date.getDate() - 1);
-        } else {
-          break;
-        }
-      }
-
-      document.getElementById("questionsSolved").textContent = solvedToday;
-      document.getElementById("streakCount").textContent = streak;
-    }
-
-    function showProgress() {
-      const record = JSON.parse(localStorage.getItem("progress") || "{}");
-      const output = document.getElementById("progressOutput");
-      output.innerHTML = "";
-
-      for (const date in record) {
-        const day = record[date];
-        const section = document.createElement("div");
-        section.innerHTML = `<h3>${date}: ${day.totalChecked} questions</h3>`;
-
-        for (const topic in day.topics) {
-          section.innerHTML += `<strong>${topic}</strong><ul>`;
-          for (const sub in day.topics[topic]) {
-            section.innerHTML += `<li>${sub}: ${day.topics[topic][sub]}</li>`;
-          }
-          section.innerHTML += `</ul>`;
-        }
-
-        output.appendChild(section);
-      }
-    }
+    window.addEventListener("DOMContentLoaded", () => {
+      const section = location.pathname.slice(1);
+      const id = section === "" || section === "home" ? "home" : section + "-section";
+      showSection(id);
+    });
   </script>
-<script>
-  if (window.location.pathname.startsWith("/iit-jam")) {
-    document.body.classList.add("iitjam");
-  }
-</script>
-<script>
-    if (!window.location.pathname.endsWith("index.html") && window.location.pathname !== "/") {
-      document.body.setAttribute("data-page", "subpage");
-    }
-  </script>
-</body>
-</html>
 </body>
 </html>

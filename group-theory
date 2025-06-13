@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Goal Tracker</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', serif;
+      background-color: #ffffff;
+      color: #fb6f92;
+      padding: 2rem;
+    }
+    input[type="checkbox"] {
+      accent-color: #fb6f92;
+    }
+    .checkbox-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .checkbox-column {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .progress-bar {
+      height: 10px;
+      background-color: #ffc5d3;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #fb6f92;
+      border-radius: 5px;
+      width: 0%;
+    }
+    #dailyBanner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffb3c1;
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+      padding: 0.5rem;
+      z-index: 1000;
+    }
+    body {
+      padding-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="dailyBanner">Today's questions solved: 0 | 🔥 Streak: 0 days</div>
+  <div id="content"></div>
+  <script>
+    const levels = ["Lvl 1", "Lvl 2"];
+    const content = document.getElementById("content");
+    const groupId = "groupTheory";
+    let totalQuestions = 0;
+
+    levels.forEach((lvl, i) => {
+      const group = document.createElement("div");
+      const lvlId = `${groupId}-lvl${i}`;
+      group.innerHTML = `<h3>${lvl}</h3>`;
+
+      const checkboxGrid = document.createElement("div");
+      checkboxGrid.className = "checkbox-grid";
+
+      const col1 = document.createElement("div");
+      col1.className = "checkbox-column";
+      const col2 = document.createElement("div");
+      col2.className = "checkbox-column";
+
+      for (let q = 1; q <= 10; q++) {
+        const qId = `${lvlId}-q${q}`;
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="checkbox" id="${qId}" class="${lvlId}" onchange="updateProgress('${lvlId}')"> Q${q}`;
+        (q <= 5 ? col1 : col2).appendChild(label);
+        totalQuestions++;
+      }
+
+      checkboxGrid.appendChild(col1);
+      checkboxGrid.appendChild(col2);
+      group.appendChild(checkboxGrid);
+      group.innerHTML += `<div class="progress-bar"><div class="progress-fill" id="${lvlId}-bar"></div></div>`;
+      content.appendChild(group);
+    });
+
+    function updateProgress(lvlId) {
+      const checkboxes = document.querySelectorAll(`.${lvlId}`);
+      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+      const percent = (checked / checkboxes.length) * 100;
+      document.getElementById(`${lvlId}-bar`).style.width = percent + "%";
+
+      checkboxes.forEach(cb => localStorage.setItem(cb.id, cb.checked));
+
+      const today = new Date().toISOString().split("T")[0];
+      const record = JSON.parse(localStorage.getItem("progress") || "{}");
+      if (!record[today]) record[today] = { totalChecked: 0 };
+
+      const newChecked = Array.from(checkboxes).filter(cb => cb.checked && !cb.dataset.logged).length;
+      record[today].totalChecked += newChecked;
+      checkboxes.forEach(cb => { if (cb.checked) cb.dataset.logged = "true" });
+
+      localStorage.setItem("progress", JSON.stringify(record));
+
+      const streakKey = "streak";
+      const lastDayKey = "lastLogDate";
+      let streak = parseInt(localStorage.getItem(streakKey) || "0");
+      const lastDate = localStorage.getItem(lastDayKey);
+      if (lastDate !== today) {
+        const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+        streak = lastDate === yesterday ? streak + 1 : 1;
+        localStorage.setItem(lastDayKey, today);
+        localStorage.setItem(streakKey, streak);
+      }
+
+      const solved = record[today]?.totalChecked || 0;
+      document.getElementById("dailyBanner").textContent = `Today's questions solved: ${solved} | 🔥 Streak: ${streak} day${streak !== 1 ? "s" : ""}`;
+    }
+  </script>
+</body>
+</html>

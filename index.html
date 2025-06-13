@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,80 +6,49 @@
   <title>anamika's goal tracker</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
   <style>
+    body.iitjam .main-content {
+  background-color: #fbeff2; /* softer on eyes */
+  color: #2c2c2c;            /* dark gray text */
+}
+
+/* Optional: dim checkbox text too */
+body.iitjam label {
+  color: #2c2c2c;
+}
+/* General condensed spacing for IIT-JAM pages */
+body.iitjam .main-content h2,
+body.iitjam .main-content h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Reduce space between question checkboxes */
+body.iitjam .question {
+  margin-bottom: 0.4rem;
+}
+
+/* If you're using lists or paragraphs inside sections */
+body.iitjam .main-content p,
+body.iitjam .main-content li {
+  margin: 0.3rem 0;
+}
+
     body {
-      font-family: 'Quicksand', sans-serif;
+      font-family: 'Times New Roman', serif;
+      background-color: #ffffff;
+      color: #fb6f92;
       padding: 2rem;
       padding-top: 4rem;
       position: relative;
-      background-color: #ffe0eb;
-      color: #a60343;
     }
 
     input[type="checkbox"] {
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #a60343;
-      border-radius: 4px;
-      cursor: pointer;
-      position: relative;
-      margin-right: 10px;
-      vertical-align: middle;
-    }
-
-    input[type="checkbox"]:checked {
-      background-color: #fb6f92;
-    }
-
-    input[type="checkbox"]::before {
-      content: "✓";
-      color: white;
-      position: absolute;
-      top: 1px;
-      left: 4px;
-      font-size: 16px;
-      display: none;
-    }
-
-    input[type="checkbox"]:checked::before {
-      display: block;
-    }
-
-    .main-content h2,
-    .main-content h3 {
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .question {
-      margin-bottom: 0.1rem;
-    }
-
-    .main-content p,
-    .main-content li {
-      margin: 0.2rem 0;
-    }
-
-    .main-content {
-      font-size: 0.95rem;
-    }
-
-    .question-list {
-      display: grid;
-      grid-template-columns: repeat(10, auto);
-      gap: 0.1rem;
-      margin-top: 0.2rem;
-    }
-
-    .subtopic {
-      margin-bottom: 0.5rem;
-      background-color: #ffc5d3;
-      padding: 1rem;
-      border-radius: 8px;
+      accent-color: #fb6f92;
+      transform: scale(1.1);
     }
 
     a {
-      color: inherit;
+      color: #fb6f92;
       text-decoration: none;
       font-weight: bold;
     }
@@ -96,7 +63,6 @@
 
     .nav a {
       margin-right: 1rem;
-      cursor: pointer;
     }
 
     .homepage {
@@ -114,7 +80,6 @@
 
     .category h2 {
       margin-bottom: 0.5rem;
-      text-transform: lowercase;
     }
 
     .subtopic-link {
@@ -125,12 +90,91 @@
       border-radius: 5px;
       margin-bottom: 0.5rem;
       cursor: pointer;
-      text-transform: lowercase;
     }
 
-    #group-theory-section h1,
-    h2, h3, strong, label {
-      text-transform: lowercase;
+    .hidden {
+      display: none;
+    }
+
+    #group-theory-section {
+      color: #fb6f92;
+      padding: 2rem;
+      border-radius: 12px;
+    }
+
+    .topic {
+      border: 2px dashed #ffc5d3;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+
+    .subtopic {
+      margin-bottom: 1rem;
+      background-color: #ffffff;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background-color: #ffc5d3;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: #fb6f92;
+      border-radius: 5px;
+      width: 0%;
+    }
+
+    label {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .question-list {
+      display: grid;
+      grid-template-columns: repeat(10, auto);
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    #overall-progress-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffc5d3;
+      padding: 10px;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    #overall-progress-bar {
+      width: 80%;
+      margin: 0 auto;
+      height: 15px;
+      background-color: #e6daff;
+      border-radius: 7px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    #overall-progress-fill {
+      height: 100%;
+      background-color: #fb6f92;
+      width: 0%;
+    }
+
+    #jake-removebg-preview {
+      position: fixed;
+      bottom: 50px;
+      right: 10px;
+      width: 100px;
     }
 
     #dailyBanner {
@@ -145,103 +189,320 @@
       text-align: center;
       padding: 0.5rem;
       z-index: 1000;
-      text-transform: lowercase;
     }
 
-    #overall-progress-container {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #ffc5d3;
-      text-align: center;
-      padding: 0.5rem;
-      z-index: 900;
+    label, select, input {
+      display: block;
+      margin: 0.5rem 0;
     }
 
-    #jake {
-      position: fixed;
-      right: 10px;
-      bottom: 60px;
-      width: 60px;
-      z-index: 1001;
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: #ff6f91;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
 
-    .hidden {
-      display: none;
+    button:hover {
+      background-color: #ff4e78;
     }
+
+    #progressOutput h3 {
+      margin-top: 1.5rem;
+      color: #555;
+    }
+
+    #progressOutput ul {
+      margin: 0;
+      padding-left: 1.2rem;
+/* Styles specific to IIT-JAM pages using a class */
+body.iitjam {
+  background-color: #fb6f92;
+  color: white;
+}
+
+/* Reduce heading and question spacing */
+body.iitjam .main-content h2,
+body.iitjam .main-content h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+body.iitjam .question {
+  margin-bottom: 0.4rem;
+}
+
+body.iitjam .main-content p,
+body.iitjam .main-content li {
+  margin: 0.3rem 0;
+}
+
+/* Slightly smaller font for dense view */
+body.iitjam .main-content {
+  font-size: 0.95rem;
+}
+/* Default (homepage) style */
+body {
+  background-color: white;
+  color: #fb6f92;
+  font-family: 'Times New Roman', serif;
+}
+
+/* All other pages (any page except homepage) */
+body:not([data-page="home"]) {
+  background-color: #fb6f92;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* Checkbox styling for all pages */
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #a60343; /* dark pink border */
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #fb6f92; /* match your pink */
+}
+
+input[type="checkbox"]::before {
+  content: "✓";
+  color: white;
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  font-size: 16px;
+  display: none;
+}
+
+input[type="checkbox"]:checked::before {
+  display: block;
+}
+
   </style>
 </head>
 <body>
-  <div id="dailyBanner">🌸 daily check-in 🌸</div>
+
+  <!-- 🔥 FIXED: Banner now shows always -->
+  <div id="dailyBanner">
+    today's questions solved: <span id="questionsSolved">0</span> |
+     streak: <span id="streakCount">0</span> days
+  </div>
+
   <div class="nav">
-    <a href="/home" onclick="navigateTo(event, 'home')">home</a>
-    <a href="/group-theory" onclick="navigateTo(event, 'group-theory-section')">group theory</a>
+    <a href="#iitjam" onclick="showSection('iitjam'); return false;">IIT JAM</a>
+    <a href="#" onclick="showSection('fitness')">Fitness</a>
+    <a href="#" onclick="showSection('skills')">Skillzz</a>
   </div>
 
   <div id="home" class="homepage">
     <div class="category">
-      <h2>your goals</h2>
-      <div class="subtopic-link" onclick="navigateTo(event, 'group-theory-section')">group theory</div>
+      <h2>IIT JAM</h2>
+      <div class="subtopic-link" onclick="showSection('iitjam')">Enter</div>
     </div>
     <div class="category">
-      <h2>iit jam</h2>
-      <div class="subtopic-link">differential equations</div>
-      <div class="subtopic-link" onclick="navigateTo(event, 'group-theory-section')">group theory</div>
+      <h2>fitness</h2>
+      <div class="subtopic-link">Coming soon</div>
+    </div>
+    <div class="category">
+      <h2>skillzz</h2>
+      <div class="subtopic-link">Coming soon</div>
     </div>
   </div>
 
-  <div id="group-theory-section" class="main-content hidden">
-    <h2>group theory tracker</h2>
+  <div id="iitjam" class="hidden">
+    <h2> IIT JAM topics</h2>
+    <div class="subtopic-link" onclick="showSection('group-theory')">group theory</div>
+    <div class="subtopic-link" onclick="showSection('f2v')">functions of 2 variables</div>
+    <div class="subtopic-link" onclick="showSection('la')">linear algebra</div>
+     <div class="subtopic-link" onclick="showSection('f1v')">functions of 1 variable</div>
+     <div class="subtopic-link" onclick="showSection('s-and-s')">sequences and series</div>
+     <div class="subtopic-link" onclick="showSection('de')">differential equations</div>
+     <div class="subtopic-link" onclick="showSection('ic')">integral calculus</div>
 
-    <div class="subtopic">
-      <h3>groups</h3>
-      <div class="question-list">
-        <label class="question"><input type="checkbox"> q1</label>
-        <label class="question"><input type="checkbox"> q2</label>
-      </div>
-    </div>
+  </div>
 
-    <div class="subtopic">
-      <h3>subgroups</h3>
-      <div class="question-list">
-        <label class="question"><input type="checkbox"> q1</label>
-        <label class="question"><input type="checkbox"> q2</label>
+  <div id="group-theory" class="hidden">
+    <div id="group-theory-section">
+      <h1>🌸 Group Theory Tracker 🌸</h1>
+      <img id="jake-removebg-preview" src="jake-removebg-preview.png" alt="jake the dog" />
+      <div id="group-theory-content" class="topic">
+        <h2>Group Theory</h2>
+        <div id="subtopics"></div>
       </div>
     </div>
   </div>
 
-  <img id="jake" src="jake.png" alt="jake the dog">
-  <div id="overall-progress-container">🌸 overall progress bar placeholder 🌸</div>
+  <div id="overall-progress-container">
+    <strong>Overall Progress</strong>
+    <div id="overall-progress-bar">
+      <div id="overall-progress-fill"></div>
+    </div>
+  </div>
+
 
   <script>
-    function navigateTo(event, id) {
-      event.preventDefault();
-      history.pushState({ section: id }, "", "/" + id.replace("-section", ""));
-      showSection(id);
+    const subtopics = [
+      "Groups and Subgroups",
+      "Cyclic Groups",
+      "Permutation Groups",
+      "Group Homomorphisms",
+      "DnQ8 Class Equations",
+      "Cosets and Normal Subgroups",
+      "Factor Groups",
+      "Sylow Theorem"
+    ];
+
+    const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
+    const subtopicContainer = document.getElementById("subtopics");
+    let totalQuestions = 0;
+
+    subtopics.forEach((name, index) => {
+      const subDiv = document.createElement("div");
+      subDiv.className = "subtopic";
+      const idBase = `sub${index}`;
+      subDiv.innerHTML = `<h3>🌼 ${name} 🌼</h3>`;
+
+      levels.forEach((lvl, lvlIndex) => {
+       const group = document.createElement("div");
+const groupId = `${idBase}-lvl${lvlIndex}`;
+group.innerHTML = `<strong>${lvl}</strong>`;
+
+const checkboxWrapper = document.createElement("div");
+checkboxWrapper.className = "question-list";
+
+for (let q = 1; q <= 10; q++) {
+  const qId = `${groupId}-q${q}`;
+  totalQuestions++;
+  const label = document.createElement("label");
+  label.innerHTML = `<input type="checkbox" id="${qId}" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}`;
+  checkboxWrapper.appendChild(label);
+}
+
+group.appendChild(checkboxWrapper);
+
+
+        group.innerHTML += `</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="${groupId}-bar"></div>
+          </div>
+        `;
+        subDiv.appendChild(group);
+      });
+
+      subtopicContainer.appendChild(subDiv);
+    });
+
+    function updateProgress(groupId) {
+      const checkboxes = document.querySelectorAll(`.${groupId}`);
+      const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+      const percent = (checked / checkboxes.length) * 100;
+      document.getElementById(`${groupId}-bar`).style.width = percent + "%";
+
+      updateOverallProgress();
+
+      checkboxes.forEach(cb => {
+        localStorage.setItem(cb.id, cb.checked);
+      });
+    }
+
+    function updateOverallProgress() {
+      const allCheckboxes = document.querySelectorAll("input[type='checkbox']");
+      const checked = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+      const percent = (checked / totalQuestions) * 100;
+      document.getElementById("overall-progress-fill").style.width = percent + "%";
     }
 
     function showSection(id) {
       document.querySelectorAll('body > div').forEach(div => {
-        if (!['dailyBanner', 'overall-progress-container'].includes(div.id)) {
+        if (div.id !== 'overall-progress-container' && div.id !== 'dailyBanner') {
           div.classList.add('hidden');
         }
       });
-      const target = document.getElementById(id);
-      if (target) target.classList.remove('hidden');
+      document.getElementById(id).classList.remove('hidden');
     }
 
-    window.addEventListener('popstate', () => {
-      const section = location.pathname.slice(1);
-      const id = section === "" || section === "home" ? "home" : section + "-section";
-      showSection(id);
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("input[type=checkbox]").forEach(cb => {
+        const saved = localStorage.getItem(cb.id);
+        if (saved !== null) cb.checked = saved === "true";
+      });
+
+      subtopics.forEach((_, index) => {
+        levels.forEach((_, lvlIndex) => {
+          const groupId = `sub${index}-lvl${lvlIndex}`;
+          updateProgress(groupId);
+        });
+      });
+
+      updateBanner();
     });
 
-    window.addEventListener("DOMContentLoaded", () => {
-      const section = location.pathname.slice(1);
-      const id = section === "" || section === "home" ? "home" : section + "-section";
-      showSection(id);
-    });
+    function updateBanner() {
+      const todayKey = new Date().toISOString().split("T")[0];
+      let savedProgress = JSON.parse(localStorage.getItem("dailyProgress")) || {};
+      let solvedToday = 0;
+
+      document.querySelectorAll('input[type="checkbox"]').forEach((box) => {
+        if (box.checked) solvedToday++;
+      });
+
+      savedProgress[todayKey] = solvedToday;
+      localStorage.setItem("dailyProgress", JSON.stringify(savedProgress));
+
+      let streak = 0;
+      let date = new Date(todayKey);
+      while (true) {
+        const dateStr = date.toISOString().split("T")[0];
+        if (savedProgress[dateStr] > 0) {
+          streak++;
+          date.setDate(date.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+
+      document.getElementById("questionsSolved").textContent = solvedToday;
+      document.getElementById("streakCount").textContent = streak;
+    }
+
+    function showProgress() {
+      const record = JSON.parse(localStorage.getItem("progress") || "{}");
+      const output = document.getElementById("progressOutput");
+      output.innerHTML = "";
+
+      for (const date in record) {
+        const day = record[date];
+        const section = document.createElement("div");
+        section.innerHTML = `<h3>${date}: ${day.totalChecked} questions</h3>`;
+
+        for (const topic in day.topics) {
+          section.innerHTML += `<strong>${topic}</strong><ul>`;
+          for (const sub in day.topics[topic]) {
+            section.innerHTML += `<li>${sub}: ${day.topics[topic][sub]}</li>`;
+          }
+          section.innerHTML += `</ul>`;
+        }
+
+        output.appendChild(section);
+      }
+    }
   </script>
+<script>
+  if (window.location.pathname.startsWith("/iit-jam")) {
+    document.body.classList.add("iitjam");
+  }
+</script>
+
 </body>
 </html>

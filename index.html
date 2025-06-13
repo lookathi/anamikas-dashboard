@@ -498,6 +498,23 @@ group.appendChild(checkboxWrapper);
       }
     }
   </script>
+  <script>
+  function showSectionFromHash() {
+    const hash = window.location.hash.slice(1); // remove the '#'
+    const sections = document.querySelectorAll("section");
+    sections.forEach(sec => {
+      sec.classList.remove("active");
+    });
+    const current = document.getElementById(hash);
+    if (current) {
+      current.classList.add("active");
+    }
+  }
+
+  window.addEventListener("hashchange", showSectionFromHash);
+  window.addEventListener("DOMContentLoaded", showSectionFromHash);
+</script>
+
 <script>
   if (window.location.pathname.startsWith("/iit-jam")) {
     document.body.classList.add("iitjam");

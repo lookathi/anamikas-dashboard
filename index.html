@@ -12,6 +12,16 @@
       padding: 2rem;
       position: relative;
     }
+.checkbox-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-inline label {
+  white-space: nowrap;
+}
 
     input[type="checkbox"] {
       accent-color: #fb6f92;
@@ -366,6 +376,19 @@
 
       let streak = parseInt(localStorage.getItem(streakKey) || "0");
       const lastDate = localStorage.getItem(lastDayKey);
+      const checkboxContainer = document.createElement("div");
+checkboxContainer.className = "checkbox-inline";
+
+for (let q = 1; q <= 10; q++) {
+  const qId = `${groupId}-q${q}`;
+  totalQuestions++;
+  const label = document.createElement("label");
+  label.innerHTML = `<input type="checkbox" id="${qId}" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}`;
+  checkboxContainer.appendChild(label);
+}
+
+group.appendChild(checkboxContainer);
+
 
       if (record[today]) {
         if (lastDate !== today) {

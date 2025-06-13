@@ -244,6 +244,50 @@ body.iitjam .main-content li {
 body.iitjam .main-content {
   font-size: 0.95rem;
 }
+/* Default (homepage) style */
+body {
+  background-color: white;
+  color: #fb6f92;
+  font-family: 'Times New Roman', serif;
+}
+
+/* All other pages (any page except homepage) */
+body:not([data-page="home"]) {
+  background-color: #fb6f92;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* Checkbox styling for all pages */
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #a60343; /* dark pink border */
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #fb6f92; /* match your pink */
+}
+
+input[type="checkbox"]::before {
+  content: "✓";
+  color: white;
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  font-size: 16px;
+  display: none;
+}
+
+input[type="checkbox"]:checked::before {
+  display: block;
+}
 
   </style>
 </head>

@@ -4,33 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Study Goal Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
   <style>
-    input[type="checkbox"] {
-  accent-color: #fb6f92; /* or your preferred pink */
-}
-
     body {
       font-family: 'Times New Roman', serif;
       background-color: #ffffff;
       color: #fb6f92;
       padding: 2rem;
+      padding-top: 4rem;
       position: relative;
     }
-.checkbox-inline {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 0.5rem;
-}
-
-.checkbox-inline label {
-  white-space: nowrap;
-}
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-
 
     input[type="checkbox"] {
       accent-color: #fb6f92;
+      transform: scale(1.1);
     }
 
     a {
@@ -63,11 +50,6 @@
       padding: 1rem;
       border-radius: 12px;
     }
-#dailyBanner {
-  font-family: 'Quicksand', sans-serif;
-  font-size: 1.2rem; /* You can tweak size if needed */
-  font-weight: 600;  /* Optional: makes it look bolder */
-}
 
     .category h2 {
       margin-bottom: 0.5rem;
@@ -80,6 +62,7 @@
       padding: 0.25rem 0.5rem;
       border-radius: 5px;
       margin-bottom: 0.5rem;
+      cursor: pointer;
     }
 
     .hidden {
@@ -87,7 +70,6 @@
     }
 
     #group-theory-section {
-  
       color: #fb6f92;
       padding: 2rem;
       border-radius: 12px;
@@ -127,6 +109,13 @@
       margin-right: 10px;
     }
 
+    .question-list {
+      display: grid;
+      grid-template-columns: repeat(10, auto);
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
     #overall-progress-container {
       position: fixed;
       bottom: 0;
@@ -161,24 +150,18 @@
       width: 100px;
     }
 
-    /* Floating Banner */
     #dailyBanner {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      background-color: #ffb3c1;
-      color: #333;
+      background-color: #fb6f92;
+      color: white;
+      font-family: 'Quicksand', sans-serif;
       font-weight: bold;
       text-align: center;
       padding: 0.5rem;
       z-index: 1000;
-      font-family: sans-serif;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    body {
-      padding-top: 3rem;
     }
 
     label, select, input {
@@ -195,12 +178,6 @@
       border-radius: 5px;
       cursor: pointer;
     }
-#dailyBanner {
-  font-family: 'Quicksand', sans-serif;
-  color: white;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
 
     button:hover {
       background-color: #ff4e78;
@@ -214,31 +191,22 @@
     #progressOutput ul {
       margin: 0;
       padding-left: 1.2rem;
-    }.question-list {
-  display: grid;
-  grid-template-columns: repeat(10, auto);
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.question-list input[type="checkbox"] {
-  accent-color: #fb6f92; /* your pink */
-}
-
+    }
   </style>
 </head>
 <body>
-  <div class="nav">
-    <a href="#iitjam" onclick="showSection('iitjam'); return false;">IIT JAM</a>
-    <a href="#" onclick="showSection('fitness')">fitness</a>
-    <a href="#" onclick="showSection('skills')">skillzz</a>
+
+  <!-- 🔥 FIXED: Banner now shows always -->
+  <div id="dailyBanner">
+    Today's questions solved: <span id="questionsSolved">0</span> |
+    🔥 Streak: <span id="streakCount">0</span> days
   </div>
 
-  <div id="dailyBanner">
-  today's questions solved: <span id="questionsSolved">0</span> |
-  streak: <span id="streakCount">0</span> days
-</div>
-
+  <div class="nav">
+    <a href="#iitjam" onclick="showSection('iitjam'); return false;">IIT JAM</a>
+    <a href="#" onclick="showSection('fitness')">Fitness</a>
+    <a href="#" onclick="showSection('skills')">Skillzz</a>
+  </div>
 
   <div id="home" class="homepage">
     <div class="category">
@@ -246,11 +214,11 @@
       <div class="subtopic-link" onclick="showSection('iitjam')">Enter</div>
     </div>
     <div class="category">
-      <h2>fitness</h2>
+      <h2>Fitness</h2>
       <div class="subtopic-link">Coming soon</div>
     </div>
     <div class="category">
-      <h2>skillzz</h2>
+      <h2>Skillzz</h2>
       <div class="subtopic-link">Coming soon</div>
     </div>
   </div>
@@ -277,37 +245,6 @@
       <div id="overall-progress-fill"></div>
     </div>
   </div>
-
- <style>
-  body {
-    font-family: 'Quicksand', sans-serif;
-    background-color: #E6E6FA; /* Light lavender */
-  }
-
-  #dailyBanner {
-    background-color: #fb6f92;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    font-weight: bold;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-
-  .question-list {
-    display: grid;
-    grid-template-columns: repeat(10, auto);
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
-  .question-list input[type="checkbox"] {
-    accent-color: #fb6f92;
-    transform: scale(1.2);
-  }
-</style>
-
 
   <button onclick="showProgress()">View Progress</button>
   <div id="progressOutput"></div>
@@ -337,7 +274,7 @@
       levels.forEach((lvl, lvlIndex) => {
         const group = document.createElement("div");
         const groupId = `${idBase}-lvl${lvlIndex}`;
-        group.innerHTML = `<strong>${lvl}</strong><br>`;
+        group.innerHTML = `<strong>${lvl}</strong><div class="question-list">`;
 
         for (let q = 1; q <= 10; q++) {
           const qId = `${groupId}-q${q}`;
@@ -347,7 +284,7 @@
           `;
         }
 
-        group.innerHTML += `
+        group.innerHTML += `</div>
           <div class="progress-bar">
             <div class="progress-fill" id="${groupId}-bar"></div>
           </div>
@@ -380,7 +317,7 @@
 
     function showSection(id) {
       document.querySelectorAll('body > div').forEach(div => {
-        if (div.id !== 'overall-progress-container') {
+        if (div.id !== 'overall-progress-container' && div.id !== 'dailyBanner') {
           div.classList.add('hidden');
         }
       });
@@ -388,13 +325,11 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      // Restore checkboxes
       document.querySelectorAll("input[type=checkbox]").forEach(cb => {
         const saved = localStorage.getItem(cb.id);
         if (saved !== null) cb.checked = saved === "true";
       });
 
-      // Update individual progress bars
       subtopics.forEach((_, index) => {
         levels.forEach((_, lvlIndex) => {
           const groupId = `sub${index}-lvl${lvlIndex}`;
@@ -402,74 +337,36 @@
         });
       });
 
-      // Daily streak logic
-      const today = new Date().toISOString().split("T")[0];
-      const record = JSON.parse(localStorage.getItem("progress") || "{}");
-      const streakKey = "streak";
-      const lastDayKey = "lastLogDate";
+      updateBanner();
+    });
 
-      let streak = parseInt(localStorage.getItem(streakKey) || "0");
-      const lastDate = localStorage.getItem(lastDayKey);
-      const checkboxContainer = document.createElement("div");
-checkboxContainer.className = "checkbox-inline";
+    function updateBanner() {
+      const todayKey = new Date().toISOString().split("T")[0];
+      let savedProgress = JSON.parse(localStorage.getItem("dailyProgress")) || {};
+      let solvedToday = 0;
 
-for (let q = 1; q <= 10; q++) {
-  const qId = `${groupId}-q${q}`;
-  totalQuestions++;
-  const label = document.createElement("label");
-  label.innerHTML = `<input type="checkbox" id="${qId}" class="${groupId}" onchange="updateProgress('${groupId}')"> Q${q}`;
-  checkboxContainer.appendChild(label);
-}
+      document.querySelectorAll('input[type="checkbox"]').forEach((box) => {
+        if (box.checked) solvedToday++;
+      });
 
-group.appendChild(checkboxContainer);
+      savedProgress[todayKey] = solvedToday;
+      localStorage.setItem("dailyProgress", JSON.stringify(savedProgress));
 
-
-      if (record[today]) {
-        if (lastDate !== today) {
-          const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
-          if (lastDate === yesterday) {
-            streak++;
-          } else {
-            streak = 1;
-          }
+      let streak = 0;
+      let date = new Date(todayKey);
+      while (true) {
+        const dateStr = date.toISOString().split("T")[0];
+        if (savedProgress[dateStr] > 0) {
+          streak++;
+          date.setDate(date.getDate() - 1);
+        } else {
+          break;
         }
-        localStorage.setItem(lastDayKey, today);
-        localStorage.setItem(streakKey, streak);
       }
 
-      const banner = document.getElementById("dailyBanner");
-      const solved = record[today]?.totalChecked || 0;
-      banner.textContent = `Today's questions solved: ${solved} | 🔥 Streak: ${streak} day${streak !== 1 ? "s" : ""}`;
-    });
-
-    document.getElementById("logForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const topic = form.topic.value;
-      const subtopic = form.subtopic.value;
-      const count = parseInt(form.count.value);
-
-      const today = new Date().toISOString().split("T")[0];
-      const record = JSON.parse(localStorage.getItem("progress") || "{}");
-
-      if (!record[today]) {
-        record[today] = { topics: {}, totalChecked: 0 };
-      }
-      if (!record[today].topics[topic]) {
-        record[today].topics[topic] = {};
-      }
-      if (!record[today].topics[topic][subtopic]) {
-        record[today].topics[topic][subtopic] = 0;
-      }
-
-      record[today].topics[topic][subtopic] += count;
-      record[today].totalChecked += count;
-      localStorage.setItem("progress", JSON.stringify(record));
-
-      alert("Progress logged!");
-      form.reset();
-      location.reload(); // Refresh to update streak/banner
-    });
+      document.getElementById("questionsSolved").textContent = solvedToday;
+      document.getElementById("streakCount").textContent = streak;
+    }
 
     function showProgress() {
       const record = JSON.parse(localStorage.getItem("progress") || "{}");
@@ -492,56 +389,7 @@ group.appendChild(checkboxContainer);
         output.appendChild(section);
       }
     }
-  </script><script>
-  // Get the date in YYYY-MM-DD format
-  const todayKey = new Date().toISOString().split("T")[0];
-
-  // Get or create saved data
-  let savedProgress = JSON.parse(localStorage.getItem("dailyProgress")) || {};
-
-  // Update today's checkbox count
-  function updateBanner() {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    let solvedToday = 0;
-
-    checkboxes.forEach((box) => {
-      if (box.checked && box.dataset.date === todayKey) {
-        solvedToday++;
-      }
-    });
-
-    // Save today's count
-    savedProgress[todayKey] = solvedToday;
-    localStorage.setItem("dailyProgress", JSON.stringify(savedProgress));
-
-    // Update streak (number of consecutive days with >0 solved)
-    let streak = 0;
-    let date = new Date(todayKey);
-    while (true) {
-      const dateStr = date.toISOString().split("T")[0];
-      if (savedProgress[dateStr] > 0) {
-        streak++;
-        date.setDate(date.getDate() - 1);
-      } else {
-        break;
-      }
-    }
-
-    document.getElementById("questionsSolved").textContent = solvedToday;
-    document.getElementById("streakCount").textContent = streak;
-  }
-
-  // Add event listeners to all checkboxes
-  document.querySelectorAll('input[type="checkbox"]').forEach((box) => {
-    // Tag checkbox with today's date if not already
-    if (!box.dataset.date) box.dataset.date = todayKey;
-
-    box.addEventListener("change", updateBanner);
-  });
-
-  // Initial update on page load
-  updateBanner();
-</script>
+  </script>
 
 </body>
 </html>

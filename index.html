@@ -6,17 +6,6 @@
   <title>anamika's goal tracker</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
   <style>
-    * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: #ffc5d3;
-  overflow-x: hidden; /* Prevents accidental horizontal scroll */
-}
-
     body.iitjam .main-content {
   background-color: #fbeff2; /* softer on eyes */
   color: #2c2c2c;            /* dark gray text */
@@ -108,7 +97,6 @@ body.iitjam .main-content li {
     }
 
     #group-theory-section {
-       background-color: #ccccff
       color: #fb6f92;
       padding: 2rem;
       border-radius: 12px;
@@ -133,8 +121,7 @@ body.iitjam .main-content li {
       height: 10px;
       background-color: #ffc5d3;
       border-radius: 5px;
-      margin-top: 5px
-      margin-bottom: 5px;
+      margin-top: 5px;
     }
 
     .progress-fill {
@@ -150,15 +137,12 @@ body.iitjam .main-content li {
     }
 
     .question-list {
-      .question-list {
-  display: grid;
-  grid-template-columns: repeat(10, auto);
-  gap: 0.005rem;
-  background-color: #ffbda1;
-  margin-top: 0.3rem;
-  margin-bottom: 0.1rem;
-}
-
+      display: grid;
+      grid-template-columns: repeat(10, auto);
+      gap: 0.1rem;
+      background-color:#ffc5d3
+      margin-top: 0.1rem;
+      margin-bottom: 0.5rem;
     }
 
     #overall-progress-container {
@@ -184,7 +168,7 @@ body.iitjam .main-content li {
 
     #overall-progress-fill {
       height: 100%;
-      background-color: #a60343;
+      background-color: #fb6f92;
       width: 0%;
     }
 
@@ -313,8 +297,8 @@ input[type="checkbox"]:checked::before {
 
   <!-- 🔥 FIXED: Banner now shows always -->
   <div id="dailyBanner">
-    total questions solved: <span id="questionsSolved">0</span> 
-     
+    today's questions solved: <span id="questionsSolved">0</span> |
+     streak: <span id="streakCount">0</span> days
   </div>
 
   <div class="nav">
@@ -352,9 +336,7 @@ input[type="checkbox"]:checked::before {
 
   <div id="group-theory" class="hidden">
     <div id="group-theory-section">
-      <h1> <p style="color: #ffffff">🌸 Group Theory Tracker 🌸</p> </h1>
-
-
+      <h1>🌸 Group Theory Tracker 🌸</h1>
       <img id="jake-removebg-preview" src="jake-removebg-preview.png" alt="jake the dog" />
       <div id="group-theory-content" class="topic">
         <h2>Group Theory</h2>
@@ -372,7 +354,6 @@ input[type="checkbox"]:checked::before {
 
 
   <script>
-   
     const subtopics = [
       "Groups and Subgroups",
       "Cyclic Groups",
@@ -388,9 +369,6 @@ input[type="checkbox"]:checked::before {
     const subtopicContainer = document.getElementById("subtopics");
     let totalQuestions = 0;
 
-     
-    .map(level => `<div class="highlight">${level}</div>`)
-    .join("");
     subtopics.forEach((name, index) => {
       const subDiv = document.createElement("div");
       subDiv.className = "subtopic";

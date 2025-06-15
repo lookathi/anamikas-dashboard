@@ -122,7 +122,8 @@ body.iitjam .main-content li {
       height: 10px;
       background-color: #ffc5d3;
       border-radius: 5px;
-      margin-top: 5px;
+      margin-top: 5px
+      margin-bottom: 5px;
     }
 
     .progress-fill {
@@ -358,13 +359,9 @@ input[type="checkbox"]:checked::before {
     </div>
   </div>
 
- <style>
-    .pink-text {
-      color: #fb6f92;
-    }
-  </style>
+
   <script>
-    <style= "color: #ffffff">
+   
     const subtopics = [
       "Groups and Subgroups",
       "Cyclic Groups",
@@ -379,9 +376,7 @@ input[type="checkbox"]:checked::before {
     const levels = ["Lvl 1 CDQ", "Lvl 1 Tutorial", "Lvl 2 CDQ", "Lvl 2 Tutorial", "Lvl 3 CDQ", "Lvl 3 Tutorial"];
     const subtopicContainer = document.getElementById("subtopics");
     let totalQuestions = 0;
-document.getElementById("output").innerHTML = subtopics
-    .map(topic => `<span class="pink-text">${topic}</span>`)
-    .join("<br>");
+
       document.getElementById("levels").innerHTML = levels
     .map(level => `<div class="highlight">${level}</div>`)
     .join("");
